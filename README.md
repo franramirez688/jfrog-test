@@ -4,8 +4,9 @@ This a very simple web application (Flask + ReactJS) hosted by Heroku.
 
 ## Requirements
 
-python 3.x (if you want to run your tests locally)
-docker-compose 17.12.0+
+* python 3.x (if you want to run your tests locally)
+* docker-compose 17.12.0+
+* Heroku CLI (in case of manual deployments)
 
 ## Up&running
 
