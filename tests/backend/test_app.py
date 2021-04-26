@@ -1,34 +1,27 @@
 import json
-import time
+import os
+import sys
 
-import redis
-from flask import Flask
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'backend'))
 
-app = Flask(__name__)
-cache = redis.Redis(host='redis', port=6379)
+import pytest
 
-
-def get_hit_count():
-    retries = 5
-    while True:
-        try:
-            return cache.incr('hits')
-        except redis.exceptions.ConnectionError as exc:
-            if retries == 0:
-                raise exc
-            retries -= 1
-            time.sleep(0.5)
+import app as backend_app
 
 
-@app.route('/hello')
-def hello():
-    count = get_hit_count()
-    return 'Hello World! I have been seen {} times.\n'.format(count)
+@pytest.fixture
+def client():
+    backend_app.app.config['TESTING'] = True
+
+    with backend_app.app.test_client() as client:
+        yield client
 
 
-@app.route('/contacts')
-def contacts():
-    return json.dumps([
+def test_empty_db(client):
+    """Start with a blank database."""
+
+    rv = client.get('/contacts')
+    expected = json.dumps([
       {
         "id": 1,
         "name": "Leanne Graham",
@@ -53,3 +46,4 @@ def contacts():
         }
       }
     ])
+    assert bytes(expected, 'utf-8') in rv.data
