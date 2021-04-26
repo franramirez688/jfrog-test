@@ -18,8 +18,8 @@ docker-compose up -d --build
 
 Now, you should be able to see both in your browser:
 
-**FRONTEND**: localhost:3001
-**BACKEND**: localhost:5000
+* **FRONTEND**: localhost:3001
+* **BACKEND**: localhost:5000
 
 ## Tests (backend)
 
