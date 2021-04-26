@@ -1,0 +1,7 @@
+build:
+  docker:
+    api: backend/Dockerfile
+    web: frontend/Dockerfile
+  config:
+      CHOKIDAR_USEPOLLING: true
+      REACT_APP_WEB_API: 0.0.0.0:5000
